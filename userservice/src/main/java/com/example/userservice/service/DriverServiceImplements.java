@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.userservice.repo.DriverRacerRepo;
+import java.util.Optional;
 
 /**
  *
@@ -43,7 +44,7 @@ public class DriverServiceImplements implements DriverService{
     }
 
     @Override
-    public DriverRacer getDriver(String gamertag) {
+    public Optional<DriverRacer> getDriver(String gamertag) {
         log.info("Get info of gamertag", gamertag);
         return driverRepo.findDriverRacerByGamertag(gamertag);
     }
@@ -56,9 +57,14 @@ public class DriverServiceImplements implements DriverService{
     }
 
     @Override
-    public int updateDriver(DriverRacer driver) {
+    public boolean updateDriver(DriverRacer driver) {
         log.info("Update the driver {} to the database", driver.getName());
-        return driverRepo.updateDriver(driver.getId(), driver.getName(), driver.getGamertag(), driver.getNumber_driver(), driver.getDate_updated());
+        Integer response = driverRepo.updateDriver(driver.getId(), driver.getName(), driver.getGamertag(), driver.getNumber_driver(), driver.getDate_updated());
+        if(response > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
     
 }

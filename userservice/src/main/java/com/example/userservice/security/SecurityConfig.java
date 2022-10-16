@@ -47,11 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**").permitAll();
-        //http.authorizeRequests().antMatchers(GET, "/api/getuser/**", "/api/users/**").access("hasAnyRole('ROLE_ADMIN')");
-        //http.authorizeRequests().antMatchers(GET, "/api/drivers/**").access("hasAnyRole('ROLE_USER')");
-        //http.authorizeRequests().antMatchers(POST, "/api/user/save/**").access("hasAnyRole('ROLE_USER')");
-        http.authorizeRequests().antMatchers(POST, "/api/driver/save/**", "/api/team/save").access("hasAnyRole('ROLE_ADMIN')");
-        http.authorizeRequests().antMatchers(PUT, "/api/driver/update/**").access("hasAnyRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers(GET, "/api/getuser/**", "/api/users/**", "/api/getresult-byid/**", "/api/getresult-bydriveridandraceid/**").access("hasAnyRole('ROLE_ADMIN', 'SUPER_ADMIN')");
+        http.authorizeRequests().antMatchers(POST, "/api/driver/save/**", "/api/team/save/**", "/api/resultrace/save/**", "/api/race/save/**", "/api/seasson/save/**").access("hasAnyRole('ROLE_ADMIN', 'SUPER_ADMIN')");
+        http.authorizeRequests().antMatchers(PUT, "/api/driver/update/**", "/api/resultrace/update/**", "/api/team/update/**", "/api/race/update/**").access("hasAnyRole('ROLE_ADMIN', 'SUPER_ADMIN')");
+        
         http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -61,36 +60,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
-
-
-    /*
-    protected void config(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-    }
-    */
-    /*
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
-        return auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder).and().build();
-        //return authenticationConfiguration.getAuthenticationManager();
-    }*/
-    /*
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-    */
-    /*
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {        
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthenticationFilter());
-
-        return http.build();
-    }
-*/
-
 
 }

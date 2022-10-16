@@ -25,7 +25,7 @@ public interface TeamRepo extends JpaRepository<Team, Integer>{
     
     @Modifying
     @Query(value = "update team set name = :name, alias = :alias, anio_register = :anio_register, team_chief = :team_chief, technical_chief = :technical_chief, date_updated = :date_updated where id = :id", nativeQuery = true)
-    int updateTeam(@Param("id") Integer id, @Param("name") String name, @Param("alias") String alias, @Param("anio_register") String anio_register, @Param("team_chief") String team_chief, @Param("technical_chief") String technical_chief, @Param("date_updated") Date date_updated);
+    Integer updateTeam(@Param("id") Integer id, @Param("name") String name, @Param("alias") String alias, @Param("anio_register") String anio_register, @Param("team_chief") String team_chief, @Param("technical_chief") String technical_chief, @Param("date_updated") Date date_updated);
     
     
     

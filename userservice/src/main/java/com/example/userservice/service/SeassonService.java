@@ -4,18 +4,17 @@
  */
 package com.example.userservice.service;
 
-import com.example.userservice.domain.DriverRacer;
+import com.example.userservice.domain.Seasson;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 /**
  *
  * @author cesaralejodiaz
  */
-public interface DriverService {
-    DriverRacer saveNewDriver(DriverRacer driver, String username, Integer id_team);
-    boolean updateDriver(DriverRacer driver);
-    Optional<DriverRacer> getDriver(String gamertag);
-    Collection<DriverRacer> getDrivers();
+public interface SeassonService {
+    Seasson saveNewSeasson(Seasson seasson);
+    Optional<Seasson> getSeassonById(Integer id);
+    Optional<Seasson> existSeasson(String year);
+    Collection<Seasson> getAllSeassons();
 }

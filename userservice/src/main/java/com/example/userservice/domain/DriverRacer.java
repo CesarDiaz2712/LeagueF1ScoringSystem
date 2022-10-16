@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,9 +48,11 @@ public class DriverRacer {
     private String number_driver;
     
     @Column(name= "date_creared")
+    @Temporal(TemporalType.DATE)
     private Date date_creared;
     
     @Column(name= "date_updated")
+    @Temporal(TemporalType.DATE)
     private Date date_updated;
     
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

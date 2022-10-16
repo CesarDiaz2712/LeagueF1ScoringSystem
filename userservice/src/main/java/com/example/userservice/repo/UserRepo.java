@@ -14,12 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author cesaralejodiaz
  */
-public interface UserRepo extends JpaRepository<UserApp, Long>{
+public interface UserRepo extends JpaRepository<UserApp, Integer>{
     
-    @Query(value = "select * from user_app where username = ?1", nativeQuery = true)
+    @Query(value = "select * from user_app where username = :username", nativeQuery = true)
     UserApp findByUsername(@Param("username") String username);
     
-    @Query(value = "select id from user_app where username = ?1", nativeQuery = true)
+    @Query(value = "select * from user_app where id = :id", nativeQuery = true)
+    UserApp findUserById(@Param("id") Integer id);
+    
+    @Query(value = "select id from user_app where username = :username", nativeQuery = true)
     int verifyUsername(@Param("username") String username);
     
 }

@@ -4,17 +4,12 @@
  */
 package com.example.userservice.domain;
 
-import java.time.LocalTime;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,31 +25,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "result_race")
-public class ResultRace{
-
+@Table(name = "seasson")
+public class Seasson {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id")
     private Integer id;
     
-    @Column(name= "points")
-    private Integer points;
-    
-    @Column(name= "dnf")
-    private boolean dnf;
-    
-    @Column(name= "dns")
-    private boolean dns;
-    
-    @Column(name= "dnq")
-    private boolean dnq;
-    
-    @Column(name= "vr")
-    private boolean vr;
-    
-    @Column(name= "vr_time", columnDefinition="timestamp")
-    private LocalTime vr_time;
+    @Column(name= "year", columnDefinition = "varchar(4)")
+    private String year;
     
     @Column(name= "date_creared")
     @Temporal(TemporalType.DATE)
@@ -63,13 +43,5 @@ public class ResultRace{
     @Column(name= "date_updated")
     @Temporal(TemporalType.DATE)
     private Date date_updated;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "driver_id", referencedColumnName = "id")
-    private DriverRacer driver;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "race_id", referencedColumnName = "id")
-    private Race race;
     
 }

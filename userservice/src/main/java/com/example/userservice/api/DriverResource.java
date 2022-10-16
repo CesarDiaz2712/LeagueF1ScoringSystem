@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -49,78 +50,101 @@ public class DriverResource {
     @PostMapping("/driver/save")
     public ResponseEntity<DriverRacer> saveDriver(HttpServletResponse response, @RequestBody FormNewDriver form) throws IOException {
 
-        Date date = new Date();
-        DriverRacer driver = new DriverRacer(null, form.getName(), form.getGamertag(), form.getNumber_driver(), date, date, null, null);
-
+        Map<String, String> message = new HashMap<>();
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/driver/save").toUriString());
-        DriverRacer driverAux;
-        try {
-            driverAux = driverService.saveNewDriver(driver, form.getUsername(), form.getTeam_id());
 
-            return ResponseEntity.created(uri).body(driverAux);
-        } catch (Exception e) {
-            Map<String, String> err = new HashMap<>();
-            err.put("Exception: ", e.getMessage());
+        try {
+            Optional<DriverRacer> existDriver = driverService.getDriver(form.getGamertag());
+
+            if (existDriver.isEmpty()) {
+                Date date = new Date();
+                DriverRacer driver = new DriverRacer(null, form.getName(), form.getGamertag(), form.getNumber_driver(), date, date, null, null);
+
+                DriverRacer driverAux = driverService.saveNewDriver(driver, form.getUsername(), form.getTeam_id());
+                return ResponseEntity.created(uri).body(driverAux);
+            } else {
+                message.put("Message", "Driver exist");
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), message);
+            }
+
+        } catch (IOException e) {
+            message.put("Exception", e.getMessage());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), err);
+            new ObjectMapper().writeValue(response.getOutputStream(), message);
         }
-        return ResponseEntity.created(uri).body(driver);
+        return ResponseEntity.created(uri).body(null);
     }
 
     @PutMapping("/driver/update")
     public void updateDriver(HttpServletResponse response, @RequestBody DriverRacer driver) throws IOException {
+
+        Map<String, String> message = new HashMap<>();
         Date date = new Date();
         driver.setDate_updated(date);
         try {
 
-            int flag = driverService.updateDriver(driver);
-            if (flag == 1) {
-                Map<String, String> update = new HashMap<>();
-                update.put("Updated driver: ", driver.getGamertag());
-                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), update);
+            boolean flag = driverService.updateDriver(driver);
+
+            if (flag) {
+                message.put("Message", "Updated driver" + driver.getGamertag());
             } else {
-                Map<String, String> error = new HashMap<>();
-                error.put("Driver not found: ", driver.getGamertag());
-                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
+                message.put("Message", "Driver not found" + driver.getGamertag());
             }
 
-        } catch (IOException e) {
-            Map<String, String> err = new HashMap<>();
-            err.put("Exception: ", e.getMessage());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), err);
+            new ObjectMapper().writeValue(response.getOutputStream(), message);
+
+        } catch (IOException e) {
+            message.put("Exception", e.getMessage());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), message);
         }
     }
 
     @GetMapping("/getdriver")
     @ResponseBody
     public ResponseEntity<DriverRacer> getUserSpecific(HttpServletResponse response, @RequestParam(name = "gamertag") String gamertag) throws IOException {
-        log.info("El gamertag ", gamertag);
 
+        Map<String, String> message = new HashMap<>();
         try {
-            DriverRacer driver = driverService.getDriver(gamertag);
-            if (driver == null) {
-                Map<String, String> message = new HashMap<>();
-                message.put("Driver not found: ", gamertag);
+            Optional<DriverRacer> driver = driverService.getDriver(gamertag);
+            if (!driver.isEmpty()) {
+                return ResponseEntity.ok().body(driver.get());
+            } else {
+                message.put("Driver not found", gamertag);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), message);
-            } else {
-                return ResponseEntity.ok().body(driver);
             }
-        } catch (Exception e) {
-            Map<String, String> err = new HashMap<>();
-            err.put("Exception: ", e.getMessage());
+        } catch (IOException e) {
+            message.put("Exception", e.getMessage());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), err);
+            new ObjectMapper().writeValue(response.getOutputStream(), message);
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(null);
     }
 
     @GetMapping("/getalldrivers")
-    public ResponseEntity<Collection<DriverRacer>> getDrives() {
-        return ResponseEntity.ok().body(driverService.getDrivers());
+    public ResponseEntity<Collection<DriverRacer>> getAllDrives(HttpServletResponse response) throws IOException {
+
+        Map<String, String> message = new HashMap<>();
+        try {
+
+            Collection<DriverRacer> driverList = driverService.getDrivers();
+
+            if (!driverList.isEmpty()) {
+                return ResponseEntity.ok().body(driverList);
+            } else {
+                message.put("Message", "Drivers not exist");
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), message);
+            }
+        } catch (IOException e) {
+            message.put("Exception", e.getMessage());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), message);
+        }
+        return ResponseEntity.ok().body(null);
     }
 }
 

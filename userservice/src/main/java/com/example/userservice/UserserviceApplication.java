@@ -64,6 +64,10 @@ public class UserserviceApplication {
             userService.addRoleToUser("toniop123", "ROLE_USER");
 
             teamService.saveTeam(new Team(null, "Oracle Red Bull Racing", "RB", "1997", "Christian Horner", "Pierre Waché", date, date));
+            teamService.saveTeam(new Team(null, "Scuderia Ferrari", "FRR", "1950", "Mattia Binotto", "Enrico Cardile / Enrico Gualtieri", date, date));
+            teamService.saveTeam(new Team(null, "Mercedes-AMG Petronas F1 Team", "MEC", "1970", "Toto Wolff", "Mike Elliott", date, date));
+            teamService.saveTeam(new Team(null, "McLaren F1 Team", "MC", "1966", "Andreas Seidl", "James Key", date, date));
+            teamService.saveTeam(new Team(null, "BWT Alpine F1 Team", "ALP", "1986", " Otmar Szafnauer", "Pat Fry", date, date));
 
             //driverService.saveNewDriver(new Driver_Racer(null, "Cesar", "Stricline", "27", date, date, user, null), "", Long.valueOf(9));
         };

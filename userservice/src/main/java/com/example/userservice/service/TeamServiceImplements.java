@@ -34,8 +34,8 @@ public class TeamServiceImplements implements TeamService {
     @Override
     public boolean updateTeam(Team team) {
         log.info("Update the driver {} to the database", team.getName());
-        int response = teamRepo.updateTeam(team.getId(), team.getName(), team.getAlias(), team.getAnio_register(), team.getTeam_chief(), team.getTechnical_chief(), team.getDate_updated());
-        if (response >= 0) {
+        Integer response = teamRepo.updateTeam(team.getId(), team.getName(), team.getAlias(), team.getAnio_register(), team.getTeam_chief(), team.getTechnical_chief(), team.getDate_updated());
+        if (response > 0) {
             return true;
         } else {
             return false;

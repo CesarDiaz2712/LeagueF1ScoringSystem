@@ -19,7 +19,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.FilterChain;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -51,15 +58,56 @@ public class UserResource {
 
     private final UserService userService;
 
-    
+    @PostMapping("/passwordforgot")
+    public void PasswordForgotten(HttpServletResponse response, @RequestParam("email") String email) throws IOException {
+
+        Map<String, String> messageResponse = new HashMap<>();
+        Properties properties = new Properties();
+
+        properties.setProperty("mail.smtp.host", "smtp.office365.com");
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.smtp.port", "587");
+        properties.setProperty("mail.smtp.auth", "true");
+
+        Session session = Session.getDefaultInstance(properties);
+
+        String senderMail = "halo20000@hotmail.com";
+        String passwordSender = "cesardiaz271297";
+        String receiverMail = email;
+        String subject = "Recuperacion de password";
+        String messageText = "Su contrasena es ";
+
+        try {
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(senderMail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverMail));
+            message.setSubject(subject);
+            message.setText(messageText);
+            Transport transport = session.getTransport("smpt");
+            transport.connect(senderMail, passwordSender);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+            messageResponse.put("Message", "Se ha enviado tu contrasena al tu correo");
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), messageResponse);
+        } catch (MessagingException e) {
+            messageResponse.put("Exception", e.getMessage());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), messageResponse);
+        }
+
+    }
+
     @GetMapping("/home")
     public void Session(HttpServletRequest request, HttpServletResponse response) {
-        
-        Cookie cookie= new Cookie("session", "mario");
+
+        Cookie cookie = new Cookie("session", "mario");
         cookie.setHttpOnly(true);
         cookie.setPath("/home");
         response.addCookie(cookie);
-        
+
         /*
         HttpSession session = request.getSession();
         session.setAttribute("usuario", "ricardogeek");
@@ -82,7 +130,7 @@ public class UserResource {
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), message);
             } else {
-                return ResponseEntity.ok().body(userService.getUser(username));
+                return ResponseEntity.ok().body(user);
             }
         } catch (Exception e) {
             Map<String, String> err = new HashMap<>();

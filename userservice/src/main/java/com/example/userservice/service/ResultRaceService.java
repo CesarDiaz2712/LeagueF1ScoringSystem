@@ -13,10 +13,10 @@ import java.util.Optional;
  * @author cesaralejodiaz
  */
 public interface ResultRaceService {
-    ResultRace saveResultRace(ResultRace result_race, Integer driver_id);
-    Integer updateResultRace(ResultRace resultrace);
+    ResultRace saveResultRace(ResultRace result_race, Integer driver_id, Integer race_id);
+    boolean updateResultRace(ResultRace resultrace);
     Optional<ResultRace> getResultRace(Integer id);
-    Collection<ResultRace> getAllResultRaceByIdDriver(Integer id);
-    Collection<ResultRace> getAllResultRaceByIdDriverAndIdRace(Integer id_driver, Integer id_Race);
-    Collection<ResultRace> getAllResultsRaceByIdRace(Integer id_race);
+    Optional<ResultRace> getResultRaceByIdDriverAndIdRace(Integer id_driver, Integer id_Race);
+    Collection<ResultRace> getAllResultsRaceByIdRace(Integer race_id);
+    boolean existResultRace(Integer driver_id, Integer race_id);
 }

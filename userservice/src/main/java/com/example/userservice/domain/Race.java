@@ -4,7 +4,6 @@
  */
 package com.example.userservice.domain;
 
-import java.time.LocalTime;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,31 +29,23 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "result_race")
-public class ResultRace{
-
+@Table(name = "race")
+public class Race {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id")
     private Integer id;
     
-    @Column(name= "points")
-    private Integer points;
+    @Column(name= "circuit_name", columnDefinition = "varchar(30)")
+    private String circuit_name;
     
-    @Column(name= "dnf")
-    private boolean dnf;
+    @Column(name= "country", columnDefinition = "varchar(20)")
+    private String country;
     
-    @Column(name= "dns")
-    private boolean dns;
-    
-    @Column(name= "dnq")
-    private boolean dnq;
-    
-    @Column(name= "vr")
-    private boolean vr;
-    
-    @Column(name= "vr_time", columnDefinition="timestamp")
-    private LocalTime vr_time;
+    @Column(name= "date_race")
+    @Temporal(TemporalType.DATE)
+    private Date date_race;
     
     @Column(name= "date_creared")
     @Temporal(TemporalType.DATE)
@@ -65,11 +56,7 @@ public class ResultRace{
     private Date date_updated;
     
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "driver_id", referencedColumnName = "id")
-    private DriverRacer driver;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "race_id", referencedColumnName = "id")
-    private Race race;
+    @JoinColumn(name = "seasson_id", referencedColumnName = "id")
+    private Seasson seasson;
     
 }
