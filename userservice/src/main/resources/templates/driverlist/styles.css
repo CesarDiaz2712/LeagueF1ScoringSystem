@@ -1,0 +1,276 @@
+.section {
+    width: 251.2px;
+    height: 628px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.section .conteiner_img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.section .container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.section .conteiner_img .fondo {
+    display: block;
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+}
+
+.container .container-header {
+    background-color: brown;
+    width: auto;
+    height: 20%;
+    position: relative;
+}
+
+.container .container-header .header-opt1 {
+    background-color: black;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    align-items: center;
+    display: flex;
+    z-index: 1;
+}
+
+.container .container-header .header-opt1 .rigth-line {
+    background-color: antiquewhite;
+    width: 50%;
+    height: auto;
+    display: flex;
+    position: relative;
+    /* 
+    margin-left: auto;
+    margin-right: auto; */
+    justify-content: center;
+
+}
+
+.container .container-header .header-opt1 .left-line {
+    align-items: center;
+    background-color: aqua;
+    position: relative;
+    width: 50%;
+    height: auto;
+}
+
+.container .container-header .header-opt1 .left-line .img-logo {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 64.1468px;
+    height: 64.1468px;
+}
+
+.container .container-header .header-opt1 .rigth-line .img-logo1 {
+    width: 23.7642px;
+    height: 23.7642px;
+    background-color: blue;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container .container-header .header-opt1 .rigth-line .img-logo2 {
+    width: 40.3958px;
+    height: 22.487px;
+    background-color: aqua;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container .container-header .header-opt1 .rigth-line img {
+    width: 100%;
+    height: 100%;
+}
+
+.container .container-header .header-opt1 .left-line img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.container .container-header .header-opt2 {
+    background-color: blue;
+    width: 100%;
+    height: 50%;
+    top: 40%;
+    position: absolute;
+    display: flex;
+    z-index: 2;
+}
+
+
+.container .container-header .header-opt2 .left-logos {
+    background-color: aliceblue;
+    width: 30%;
+    height: 100%;
+    position: relative;
+}
+
+.container .container-header .header-opt2 .rigth-texts {
+    background-color: blueviolet;
+    width: 70%;
+    height: 100%;
+    position: relative;
+    /* 
+    justify-content: center; */
+}
+
+.container .container-header .header-opt2 .left-logos .logo-xbox {
+    width: 34px;
+    height: 34px;
+    background-color: blue;
+    margin-left: auto;
+    margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
+    top: 80%;
+    left: 0;
+    right: 0;
+    position: absolute;
+}
+
+.container .container-header .header-opt2 .left-logos .logo-f1 {
+    width: 63.6px;
+    height: 63.6px;
+    background-color: blue;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+}
+
+.container .container-header .header-opt2 .left-logos img {
+    width: 100%;
+    height: 100%;
+}
+
+.container .container-header .header-opt2 .rigth-texts {
+    background-color: antiquewhite;
+    width: 70%;
+    height: auto;
+    position: relative;
+    text-align: center;
+    display: grid;
+    align-items: center;
+}
+
+.container .container-header .header-opt2 .rigth-texts span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+
+.container .container-body {
+    position: relative;
+    background-color: rgba(0, 255, 255, 0.356);
+    width: 100%;
+    height: 80%;
+}
+
+.container .container-body .text-title {
+    padding: 5px;
+    text-align: center;
+}
+
+.container .container-body .text-title span {
+
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+.container .container-body .list-pilots {
+    background-color: beige;
+    width: 100%;
+    height: 100%;
+}
+
+.container .container-body .list-pilots .row-pilot {
+    background-color: brown;
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
+
+    display: flex;
+    align-items: center;
+}
+
+.container .container-body .list-pilots .row-pilot .element-name {
+    width: 60%;
+    margin-right: auto;
+    padding: .3em;
+    background-color: aqua;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.container .container-body .list-pilots .row-pilot .element-points {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 30px;
+    padding: .3em;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.container .container-body .list-pilots .row-pilot .element-icon {
+    margin-left: auto;
+    margin-right: auto;
+    width: 20px;
+    height: 20px;
+    padding: .3em;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.container .container-body .list-pilots .row-pilot .element-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.container .container-body .list-pilots .row-pilot .element-name img {
+    width: 100px;
+    height: auto;
+    left: -100%;
+    right: 10%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    position: absolute;
+}
+
+.container .container-body .list-pilots .row-pilot .element-name .ferrari {
+    width: 40px;
+    right: -20%;
+    top: -40%;
+}
+
+.container .container-body .list-pilots .row-pilot span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    font-size: smaller;
+}
+.container .container-body .list-pilots .row-pilot .element-name span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    font-size: smaller;
+    margin-left: 30%;
+}
