@@ -7,6 +7,18 @@ package com.example.userservice.api;
 import com.example.userservice.domain.ResultRace;
 import com.example.userservice.service.ResultRaceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.WriterProperties;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.pdfa.PdfADocument;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.time.LocalTime;
@@ -207,12 +219,41 @@ public class ResultRaceResource {
         return ResponseEntity.ok().body(null);
     }
 
-    public byte[] createScoringTable(@RequestBody ArrayList list) {
-        ArrayList listResultRace = list;
+    @PostMapping("/createpdftop")
+    public void createPDF(HttpServletResponse response) throws IOException {
+        response.setContentType("application/pdf");
+        
+        String BASEURI = "src/main/resources/templates/driverlist/";
+        String SRC = String.format("%sdriverstop.html", BASEURI);
 
-        byte[] image = null;
+        String TARGET = "target/results/top/";
+        String DEST = String.format("%drivers.pdf", TARGET);
+        
+        
+        ConverterProperties properties = new ConverterProperties();
+        properties.setBaseUri(BASEURI);
+        PdfWriter writer = new PdfWriter(DEST);
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document = HtmlConverter.convertToDocument(new FileInputStream(SRC), pdf, properties);
+        document.add(new Paragraph("Hola"));
+        document.close();
+//        
+//        String BASEURI = "src/main/resources/templates/driverlist/";
+//        String SRC = String.format("%sDrivertop10.html", BASEURI);
+//
+//        String TARGET = "target/results/top/";
+//        String DEST = String.format("%stop10.pdf", TARGET);
+//        
+//
+//        ConverterProperties properties = new ConverterProperties();
+//        properties.setBaseUri(BASEURI);
+//        //HtmlConverter.convertToPdf(htmlStream, new FileOutputStream(DEST), properties); //If i use a html as string i need to use this one.
+//        //HtmlConverter.convertToPdf(new File(src), new File(dest)); //If i use HTML file. By default, iText will use the parent directory of this file as the base URI.
+//        //HtmlConverter.convertToPdf(new FileInputStream(SRC), new FileOutputStream(DEST), properties); // If use this the size of the pdf is as bigger as ther next way.
+//        PdfWriter writer = new PdfWriter(DEST,
+//                new WriterProperties().setFullCompressionMode(true));
+//        HtmlConverter.convertToPdf(new FileInputStream(SRC), writer, properties);
 
-        return image;
     }
 }
 

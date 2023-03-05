@@ -6,7 +6,9 @@ package com.example.userservice.security;
 
 import com.example.userservice.filter.CustomAuthenticationFilter;
 import com.example.userservice.filter.CustomAuthorizationFilter;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import static org.springframework.http.HttpMethod.GET;
@@ -22,6 +24,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  *
@@ -51,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests().antMatchers(POST, "/api/driver/save/**", "/api/team/save/**", "/api/resultrace/save/**", "/api/race/save/**", "/api/seasson/save/**").access("hasAnyRole('ROLE_ADMIN', 'SUPER_ADMIN')");
         http.authorizeRequests().antMatchers(PUT, "/api/driver/update/**", "/api/resultrace/update/**", "/api/team/update/**", "/api/race/update/**").access("hasAnyRole('ROLE_ADMIN', 'SUPER_ADMIN')");
         
+        http.cors().configurationSource(corsConfigurationSource()).and();
+        
         http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -60,5 +67,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
+    
+    
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+    
 
 }
